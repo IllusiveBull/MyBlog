@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<script src="js/jquery3.7.1.js"></script>
+<script src="js/bootstrap.js"></script>
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="icon" type="image/png" href="image/profile/avatar.png">
+    <head>
+        <title>Login</title>
+        <script src="js/jquery3.7.1.js"></script>
+        <style>
+            * {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            body {
+                align-items: center;
+                justify-content: center;
+                background-color: gray;
+            }
+            .LoginContainer {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+                width: fit-content;
+                height: fit-content;
+                border-radius: 20px;
+                padding: 40px;
+                background-color: white;
+                width:20%;
+            }
+            .terms {
+                font-size: 25px;
+            }
+            .inputs{
+                border-radius: 3px;
+                width: 90%;
+                height:30px;
+                margin:10px 0px 10px
+            }
+            .buttons{
+                border-radius: 4px;
+                padding: 5px 20px 5px;
+                color:white;
+                background-color: lightskyblue;
+                font-size: 15px;
+                margin: 10px 0px 10px;
+                width:90%
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="LoginContainer">
+            <h1 style="text-align: center;">Login</h1>
+            <hr>
+            <div th:if="${isLoginSuccessful != null and not isLoginSuccessful}" style="color: red;">
+            Incorrect username or password. Please try again.
+        	</div>
+            <form action="/login" method="POST">
+                <div class="input-group mb-3">
+				  <span class="input-group-text" id="inputGroup-sizing-default">Username</span>
+				  <input type="text" name="username" placeholder="Enter username"  class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+				</div>
+				<div class="input-group mb-3">
+				  <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
+				  <input type="password" name="password" placeholder="Enter password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">				
+				</div>
+				<div class="d-grid col-6 mx-auto">
+                  <input type="submit" value="Login" class="btn btn-primary" style="width:100% !important">
+                </div>
+            </form>
+            <hr>
+            Don't have an account? <a href="/register">Register</a>
+        </div>
+    </body>
+</html>

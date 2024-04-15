@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<script src="../js/jquery3.7.1.js"></script>
+<script src="../js/bootstrap.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.css">
+<link rel="icon" type="image/png" href="../image/profile/avatar.png">
+<title th:text="|${blog.getTitle()} - ${blog.getAuthor().getUsername()}'s Blogs|"></title>
+<style>
+	.blog-headImage {
+		max-height:200px;
+		height:auto;
+		width:100%;
+		object-fit:cover;
+	}
+</style>
+</head>
+<body>
+	<div th:include="global::navbar"></div>
+	<div class="container">
+	<div>
+	<a class="btn btn-primary my-3" th:href="|../space/${blog.getAuthor().getId()}|" th:text="|Back to ${blog.getAuthor().getUsername()} 's blogs|"></a>
+	<a class="btn btn-primary my-3" th:href="|../blog/edit?uuid=${blog.getUuid()}|" th:text="Edit" th:if="${currentAccount != null && blog.getAuthor().getId().equals(currentAccount.getId())}"></a>
+	<button class="btn btn-primary my-3" id="deleteBlog" th:data-blogUuid="${blog.getUuid().toString()}" th:text="Delete" th:if="${currentAccount != null && blog.getAuthor().getId().equals(currentAccount.getId())}"></button>
+	</div>
+		<div class="card mb-3">
+			<div class="card-body">
+			    <h1 class="card-title" th:text="${blog.getTitle()}"></h1>
+			    <div class="row">
+			    	<div class="col-6">
+				    	<span class="card-text"><small class="text-muted">Posted at </small></span>
+				    	<span class="card-text"><small class="text-muted timestamp" th:data-timestamp="${blog.getCreatedAt()}"></small></span>
+				    	<span class="card-text"><small class="text-muted"> by </small></span>
+				    	<a class="card-text" th:href="|/space/${blog.getAuthor().getId()}|"><small th:text="|${blog.getAuthor().getUsername()}|"></small></a>
+				    </div>
+				    <div class="col-5">
+				    	<span class="card-text"><small class="text-muted">Last updated at</small></span>
+				    	<span class="card-text"><small class="text-muted timestamp" th:data-timestamp="${blog.getUpdatedAt()}"></small></span>
+			    	</div>
+			    	<div class="col">
+			    		<span class="card-text"><small class="text-muted" th:text="|Views: ${blog.getViews()}|"></small></span>
+			    	</div>
+			  	</div>
+			</div>
+		</div>
+		<div class="my-3">
+			<img class="blog-headImage" th:src="|../${blog.getHeadImage()}|" alt=""></img>
+		</div>
+		<div th:utext="${blog.getContent()}"></div>
+	</div>
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+	    var timestamps = document.querySelectorAll('.timestamp');
+	
+	    timestamps.forEach(function(element) {
+	        var timestamp = element.getAttribute('data-timestamp');
+	        var date = new Date(timestamp);
+	        var options = {
+	                hour12: false
+	            };
+	        var formattedDate = date.toLocaleString('en-us', options);
+	        element.textContent = formattedDate;
+	    });
+	});
+	
+	$(document).ready(function() {
+	    $('#deleteBlog').click(function() {
+	        var blogUuid = $(this).attr('data-blogUuid');
+	        del(blogUuid);
+	    });
+	});
+	
+	function del(blogUuid) {
+		$.ajax({
+			url: '/blog/delete',
+			type: 'post',
+			data: {'blogUuid': blogUuid},
+			success : (res) => {
+				if (res == "ok") {
+					window.location.replace("/space");
+				}
+			},
+			error : () => {}
+		})
+	}
+</script>
+</body>
+</html>
