@@ -2,6 +2,8 @@ package com.example.demo.models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,6 +25,7 @@ public class Account {
 	@Column(name = "password")
 	private String password;
 	@OneToMany(mappedBy="author", cascade=CascadeType.REMOVE)
+	@JsonIgnore
 	private List<Blog> blogs;
 	public Integer getId() {
 		return id;

@@ -101,6 +101,12 @@ public class BlogServiceImp implements BlogService{
 			blogRepository.deleteById(UUID.fromString(blogUuid));
 		}
 	}
+
+	@Override
+	public List<Blog> searchBlogsByKeyword(String keyword) {
+		List<Blog> results = blogRepository.findAll();
+		return results;
+	}
 	
 	
 }

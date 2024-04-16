@@ -12,4 +12,5 @@ public interface BlogService {
 	public void addBlogViewNumber(String blogUuid);
 	public List<Blog> getBlogsByAccountId(String accountId);
 	public void deleteBlogByUuid(String blogUuid, String currentAccountId);
+	public List<Blog> searchBlogsByKeyword(String keyword);
 }
